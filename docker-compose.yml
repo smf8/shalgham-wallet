@@ -13,7 +13,7 @@ services:
   backend:
     build:
       context: .
-    container_name: privnot
+    container_name: wallet
     command: ["sh", "-c", "sleep 10 && ./wallet"]
     environment:
       - WALLET_DATABASE_CONNECTION__ADDRESS=postgresql://root@crdb:26257/defaultdb
