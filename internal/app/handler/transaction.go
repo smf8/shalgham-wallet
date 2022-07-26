@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"errors"
 	"github.com/gofiber/fiber/v2"
 	"github.com/sirupsen/logrus"
 	"github.com/smf8/arvan-wallet/internal/app/model"
@@ -51,4 +52,25 @@ func (p *Profile) Create(c *fiber.Ctx) error {
 	}
 
 	return c.SendStatus(http.StatusOK)
+}
+
+func (p *Profile) Get(c *fiber.Ctx) error {
+	phoneNumber := c.Params("phone")
+
+	if phoneNumber == "" {
+		return c.SendStatus(http.StatusBadRequest)
+	}
+
+	profile, err := p.ProfileRepo.FindByPhone(phoneNumber)
+	if err != nil {
+		if errors.Is(err, model.ErrRecordNotFound) {
+			return c.SendStatus(http.StatusNotFound)
+		}
+
+		logrus.Errorf("profile create failed: %s", err.Error())
+
+		return c.SendStatus(http.StatusInternalServerError)
+	}
+
+	return c.Status(http.StatusOK).JSON(profile)
 }

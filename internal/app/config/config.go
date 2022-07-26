@@ -3,6 +3,7 @@ package config
 import (
 	"fmt"
 	"github.com/smf8/arvan-voucher/pkg/database"
+	"github.com/smf8/arvan-voucher/pkg/router"
 	"strings"
 	"time"
 
@@ -18,13 +19,16 @@ import (
 const _Prefix = "WALLET_"
 
 type Config struct {
-	Port     string                  `koanf:"port"`
-	Debug    bool                    `koanf:"debug"`
+	Server   router.ServerConfig     `koanf:"server"`
 	Database database.DatabaseConfig `koanf:"database"`
 }
 
-var def Config = Config{
-	Port: ":8001",
+var def = Config{
+	Server: router.ServerConfig{
+		Port:      ":8001",
+		Debug:     true,
+		NameSpace: "wallet",
+	},
 	Database: database.DatabaseConfig{
 		ConnectionAddress:  "postgresql://root@127.0.0.1:26257/defaultdb",
 		RetryDelay:         time.Second,

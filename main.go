@@ -1,13 +1,12 @@
 package main
 
 import (
-	"arvan-challenge/config"
-	"arvan-challenge/database"
-	"arvan-challenge/handler"
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/cors"
-	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/sirupsen/logrus"
+	"github.com/smf8/arvan-voucher/pkg/database"
+	"github.com/smf8/arvan-voucher/pkg/router"
+	"github.com/smf8/arvan-wallet/internal/app/config"
+	"github.com/smf8/arvan-wallet/internal/app/handler"
+	"github.com/smf8/arvan-wallet/internal/app/model"
 	"os"
 	"os/signal"
 	"syscall"
@@ -16,27 +15,28 @@ import (
 func main() {
 	cfg := config.New()
 
-	app := fiber.New()
+	app := router.New(cfg.Server)
 
-	app.Use(cors.New())
-
-	if cfg.Debug {
-		app.Use(logger.New())
-	}
-
-	api := app.Group("/api")
-	api.Get("/healthz", handler.CheckHealth)
-
-	go func() {
-		if err := app.Listen(cfg.Port); err != nil {
-			logrus.Fatalf("http server failed: %s", err.Error())
-		}
-	}()
-
-	_, err := database.NewConnection(cfg.Database)
+	db, err := database.NewConnection(cfg.Database)
 	if err != nil {
 		logrus.Fatalf("database failed: %s", err.Error())
 	}
+
+	profileRepo := &model.SQLProfileRepo{DB: db}
+
+	transactionHandler := handler.Transaction{ProfileRepo: profileRepo}
+	profileHandler := handler.Profile{ProfileRepo: profileRepo}
+
+	api := app.Group("/api")
+	api.Post("/transactions", transactionHandler.ApplyTransaction)
+	api.Post("/profiles", profileHandler.Create)
+	api.Get("/profiles/:phone", profileHandler.Get)
+
+	go func() {
+		if err := app.Listen(cfg.Server.Port); err != nil {
+			logrus.Fatalf("http server failed: %s", err.Error())
+		}
+	}()
 
 	sig := make(chan os.Signal, 1)
 	signal.Notify(sig, os.Interrupt, syscall.SIGTERM)
