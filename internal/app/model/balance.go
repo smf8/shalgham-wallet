@@ -58,7 +58,7 @@ func (p *SQLProfileRepo) UpdateBalance(phoneNumber string, amount float64) error
 func (p *SQLProfileRepo) FindByPhone(phoneNumber string) (*Profile, error) {
 	result := &Profile{}
 
-	err := p.DB.Where("phone_number = ?", phoneNumber).First(phoneNumber).Error
+	err := p.DB.Where("phone_number = ?", phoneNumber).First(result).Error
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, fmt.Errorf("failed to find profile: %w", err)
