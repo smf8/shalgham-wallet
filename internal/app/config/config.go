@@ -2,6 +2,7 @@ package config
 
 import (
 	"fmt"
+	"github.com/smf8/arvan-voucher/pkg/database"
 	"strings"
 	"time"
 
@@ -17,26 +18,20 @@ import (
 const _Prefix = "WALLET_"
 
 type Config struct {
-	Port     string   `koanf:"port"`
-	Debug    bool     `koanf:"debug"`
-	Database Database `koanf:"database"`
-}
-
-type Database struct {
-	ConnectionAddress  string        `koanf:"connection-address"`
-	RetryDelay         time.Duration `koanf:"note-expiry"`
-	MaxRetry           uint          `koanf:"max-retry"`
-	ConnectionLifetime time.Duration `koanf:"connection-lifetime"`
-	MaxOpenConnections int           `koanf:"max-open-connections"`
-	MaxIdleConnections int           `koanf:"max-idle-connections"`
+	Port     string                  `koanf:"port"`
+	Debug    bool                    `koanf:"debug"`
+	Database database.DatabaseConfig `koanf:"database"`
 }
 
 var def Config = Config{
 	Port: ":8001",
-	Database: Database{
-		ConnectionAddress: "postgresql://smf8:owKoCRiy0_9epYxC9wQ8rg@free-tier7.aws-eu-west-1.cockroachlabs.cloud:26257/defaultdb?sslmode=verify-full&options=--cluster%3Dsag-to-rayanesh-2755",
-		RetryDelay:        time.Second,
-		MaxRetry:          20,
+	Database: database.DatabaseConfig{
+		ConnectionAddress:  "postgresql://root@127.0.0.1:26257/defaultdb",
+		RetryDelay:         time.Second,
+		MaxRetry:           20,
+		ConnectionLifetime: 30 * time.Minute,
+		MaxOpenConnections: 10,
+		MaxIdleConnections: 5,
 	},
 }
 

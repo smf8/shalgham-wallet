@@ -5,3 +5,6 @@ type Profile struct {
 	PhoneNumber string  `json:"phone_number"`
 	Balance     float64 `json:"balance"`
 }
+
+type ProfileRepo interface {
+}

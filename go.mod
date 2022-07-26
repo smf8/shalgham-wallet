@@ -1,18 +1,17 @@
-module arvan-challenge
+module github.com/smf8/arvan-wallet
 
 go 1.18
 
 require (
-	github.com/avast/retry-go/v4 v4.1.0
 	github.com/gofiber/fiber/v2 v2.35.0
 	github.com/knadh/koanf v1.4.2
 	github.com/sirupsen/logrus v1.9.0
-	gorm.io/driver/postgres v1.3.8
-	gorm.io/gorm v1.23.8
+	github.com/smf8/arvan-voucher v0.0.0-20220726114103-6fb32b44318c
 )
 
 require (
 	github.com/andybalholm/brotli v1.0.4 // indirect
+	github.com/avast/retry-go/v4 v4.1.0 // indirect
 	github.com/fatih/structs v1.1.0 // indirect
 	github.com/fsnotify/fsnotify v1.4.9 // indirect
 	github.com/jackc/chunkreader/v2 v2.0.1 // indirect
@@ -36,4 +35,6 @@ require (
 	golang.org/x/sys v0.0.0-20220715151400-c0bba94af5f8 // indirect
 	golang.org/x/text v0.3.7 // indirect
 	gopkg.in/yaml.v3 v3.0.0 // indirect
+	gorm.io/driver/postgres v1.3.8 // indirect
+	gorm.io/gorm v1.23.8 // indirect
 )
