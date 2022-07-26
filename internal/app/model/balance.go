@@ -1,9 +1,13 @@
 package model
 
 import (
+	"errors"
+	"fmt"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
 )
+
+var ErrRecordNotFound = errors.New("record not found")
 
 type Profile struct {
 	ID          int64   `json:"id"`
@@ -18,6 +22,7 @@ type Transaction struct {
 }
 
 type ProfileRepo interface {
+	FindByPhone(phoneNumber string) (*Profile, error)
 	Create(*Profile) error
 	UpdateBalance(string, float64) error
 }
@@ -48,4 +53,19 @@ func (p *SQLProfileRepo) UpdateBalance(phoneNumber string, amount float64) error
 
 		return tx.Create(transaction).Error
 	})
+}
+
+func (p *SQLProfileRepo) FindByPhone(phoneNumber string) (*Profile, error) {
+	result := &Profile{}
+
+	err := p.DB.Where("phone_number = ?", phoneNumber).First(phoneNumber).Error
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, fmt.Errorf("failed to find profile: %w", err)
+		}
+
+		return nil, err
+	}
+
+	return result, nil
 }
