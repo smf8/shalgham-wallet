@@ -61,7 +61,7 @@ func (p *SQLProfileRepo) FindByPhone(phoneNumber string) (*Profile, error) {
 	err := p.DB.Where("phone_number = ?", phoneNumber).First(result).Error
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return nil, fmt.Errorf("failed to find profile: %w", err)
+			return nil, fmt.Errorf("failed to find profile: %w", ErrRecordNotFound)
 		}
 
 		return nil, err
