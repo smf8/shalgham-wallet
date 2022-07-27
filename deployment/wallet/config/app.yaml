@@ -1,0 +1,14 @@
+{{- with .Values.config }}
+log_level: {{ .logLevel }}
+server:
+  port: {{ .server.port }}
+  debug: false
+  name_space: "wallet"
+database:
+  connection-address: {{ .database.connectionAddress }}
+  log_level: {{ .database.logLevel }}
+  connect-timeout: 5s
+  connection-lifetime: 10m
+  max-open-connections: 100
+  max-idle-connections: 50
+{{ end }}
