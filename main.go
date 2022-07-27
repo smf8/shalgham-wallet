@@ -27,6 +27,7 @@ func main() {
 	transactionHandler := handler.Transaction{ProfileRepo: profileRepo}
 	profileHandler := handler.Profile{ProfileRepo: profileRepo}
 
+	app.Get("/healthz", handler.CheckHealth)
 	api := app.Group("/api")
 	api.Post("/transactions", transactionHandler.ApplyTransaction)
 	api.Post("/profiles", profileHandler.Create)

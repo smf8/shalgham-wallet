@@ -15,3 +15,5 @@
 # vendor/
 .idea
 cockroach-data
+
+.netrc

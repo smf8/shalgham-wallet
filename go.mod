@@ -6,7 +6,7 @@ require (
 	github.com/gofiber/fiber/v2 v2.35.0
 	github.com/knadh/koanf v1.4.2
 	github.com/sirupsen/logrus v1.9.0
-	github.com/smf8/arvan-voucher v0.0.0-20220726143835-d86fb1769aaa
+	github.com/smf8/arvan-voucher v0.1.2
 	gorm.io/gorm v1.23.8
 )
 
@@ -44,7 +44,7 @@ require (
 	github.com/valyala/fasthttp v1.38.0 // indirect
 	github.com/valyala/tcplisten v1.0.0 // indirect
 	golang.org/x/crypto v0.0.0-20220722155217-630584e8d5aa // indirect
-	golang.org/x/sys v0.0.0-20220722155257-8c9f86f7a55f // indirect
+	golang.org/x/sys v0.0.0-20220727055044-e65921a090b8 // indirect
 	golang.org/x/text v0.3.7 // indirect
 	google.golang.org/protobuf v1.28.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect

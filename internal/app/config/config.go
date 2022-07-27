@@ -19,6 +19,7 @@ import (
 const _Prefix = "WALLET_"
 
 type Config struct {
+	LogLevel string                  `koanf:"log_level"`
 	Server   router.ServerConfig     `koanf:"server"`
 	Database database.DatabaseConfig `koanf:"database"`
 }
@@ -48,7 +49,7 @@ func New() Config {
 		logrus.Fatalf("error loading default: %s", err)
 	}
 
-	if err := k.Load(file.Provider("config.yml"), yaml.Parser()); err != nil {
+	if err := k.Load(file.Provider("config.yaml"), yaml.Parser()); err != nil {
 		logrus.Errorf("error loading file: %s", err)
 	}
 

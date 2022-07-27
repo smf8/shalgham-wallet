@@ -5,7 +5,11 @@ ENV GO111MODULE=on \
     GOARCH=amd64
 
 ARG GO_PROXY
+
 ENV GOPROXY=${GO_PROXY}
+ENV GOPRIVATE=github.com/smf8
+
+ADD .netrc /root/.netrc
 
 RUN mkdir -p /src
 
@@ -18,13 +22,13 @@ RUN go mod download
 
 COPY . /src
 
+RUN rm /src/.netrc
+
 # Build components.
 # Put built binaries and runtime resources in /app dir ready to be copied over or used.
-RUN go build -ldflags '-w -s' .  && \
+RUN go build -ldflags '-w -s' -o wallet .  && \
     mkdir -p /app && \
-    cp ./wallet ./wait-for-it.sh /app/ && \
-    cp -r /app/
-
+    cp ./wallet /app/
 #
 # 2. Runtime Container
 #
