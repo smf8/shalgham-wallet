@@ -23,7 +23,7 @@ func (t *Transaction) ApplyTransaction(c *fiber.Ctx) error {
 		return c.SendStatus(http.StatusBadRequest)
 	}
 
-	if err := t.ProfileRepo.UpdateBalance(
+	if err := t.ProfileRepo.UpdateBalance(c.Context(),
 		request.PhoneNumber, request.Amount); err != nil {
 		logrus.Errorf("update balance failed: %s", err.Error())
 
@@ -45,7 +45,7 @@ func (p *Profile) Create(c *fiber.Ctx) error {
 		Balance:     request.Balance,
 	}
 
-	if err := p.ProfileRepo.Create(profile); err != nil {
+	if err := p.ProfileRepo.Create(c.UserContext(), profile); err != nil {
 		logrus.Errorf("profile create failed: %s", err.Error())
 
 		return c.SendStatus(http.StatusInternalServerError)
@@ -61,7 +61,7 @@ func (p *Profile) Get(c *fiber.Ctx) error {
 		return c.SendStatus(http.StatusBadRequest)
 	}
 
-	profile, err := p.ProfileRepo.FindByPhone(phoneNumber)
+	profile, err := p.ProfileRepo.FindByPhone(c.UserContext(), phoneNumber)
 	if err != nil {
 		if errors.Is(err, model.ErrRecordNotFound) {
 			return c.SendStatus(http.StatusNotFound)

@@ -1,6 +1,7 @@
 package model
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"gorm.io/gorm"
@@ -22,21 +23,21 @@ type Transaction struct {
 }
 
 type ProfileRepo interface {
-	FindByPhone(phoneNumber string) (*Profile, error)
-	Create(*Profile) error
-	UpdateBalance(string, float64) error
+	FindByPhone(ctx context.Context, phoneNumber string) (*Profile, error)
+	Create(context.Context, *Profile) error
+	UpdateBalance(context.Context, string, float64) error
 }
 
 type SQLProfileRepo struct {
 	DB *gorm.DB
 }
 
-func (p *SQLProfileRepo) Create(profile *Profile) error {
-	return p.DB.Create(profile).Error
+func (p *SQLProfileRepo) Create(ctx context.Context, profile *Profile) error {
+	return p.DB.WithContext(ctx).Create(profile).Error
 }
 
-func (p *SQLProfileRepo) UpdateBalance(phoneNumber string, amount float64) error {
-	return p.DB.Transaction(func(tx *gorm.DB) error {
+func (p *SQLProfileRepo) UpdateBalance(ctx context.Context, phoneNumber string, amount float64) error {
+	return p.DB.WithContext(ctx).Transaction(func(tx *gorm.DB) error {
 		profile := &Profile{PhoneNumber: phoneNumber}
 
 		err := tx.Model(profile).Clauses(
@@ -55,10 +56,10 @@ func (p *SQLProfileRepo) UpdateBalance(phoneNumber string, amount float64) error
 	})
 }
 
-func (p *SQLProfileRepo) FindByPhone(phoneNumber string) (*Profile, error) {
+func (p *SQLProfileRepo) FindByPhone(ctx context.Context, phoneNumber string) (*Profile, error) {
 	result := &Profile{}
 
-	err := p.DB.Where("phone_number = ?", phoneNumber).First(result).Error
+	err := p.DB.WithContext(ctx).Where("phone_number = ?", phoneNumber).First(result).Error
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, fmt.Errorf("failed to find profile: %w", ErrRecordNotFound)

@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/sirupsen/logrus"
 	"github.com/smf8/arvan-voucher/pkg/database"
+	"github.com/smf8/arvan-voucher/pkg/log"
 	"github.com/smf8/arvan-voucher/pkg/router"
 	"github.com/smf8/arvan-wallet/internal/app/config"
 	"github.com/smf8/arvan-wallet/internal/app/handler"
@@ -14,6 +15,8 @@ import (
 
 func main() {
 	cfg := config.New()
+
+	log.SetupLogger(cfg.LogLevel)
 
 	app := router.New(cfg.Server)
 

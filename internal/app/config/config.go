@@ -25,11 +25,16 @@ type Config struct {
 }
 
 var def = Config{
+	LogLevel: "debug",
 	Server: router.ServerConfig{
-		Port:      ":8001",
-		Debug:     true,
-		NameSpace: "wallet",
+		Port:         ":8001",
+		Debug:        true,
+		NameSpace:    "wallet",
+		ReadTimeout:  10 * time.Second,
+		WriteTimeout: 10 * time.Second,
+		IdleTimeout:  10 * time.Second,
 	},
+
 	Database: database.DatabaseConfig{
 		ConnectionAddress:  "postgresql://root@127.0.0.1:26257/defaultdb",
 		RetryDelay:         time.Second,
