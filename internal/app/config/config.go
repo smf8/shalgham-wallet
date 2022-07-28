@@ -2,10 +2,11 @@ package config
 
 import (
 	"fmt"
-	"github.com/smf8/arvan-voucher/pkg/database"
-	"github.com/smf8/arvan-voucher/pkg/router"
 	"strings"
 	"time"
+
+	"github.com/smf8/arvan-voucher/pkg/database"
+	"github.com/smf8/arvan-voucher/pkg/router"
 
 	"github.com/sirupsen/logrus"
 
@@ -42,6 +43,7 @@ var def = Config{
 		ConnectionLifetime: 30 * time.Minute,
 		MaxOpenConnections: 10,
 		MaxIdleConnections: 5,
+		LogLevel:           4,
 	},
 }
 

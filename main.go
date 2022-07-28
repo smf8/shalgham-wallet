@@ -1,6 +1,10 @@
 package main
 
 import (
+	"os"
+	"os/signal"
+	"syscall"
+
 	"github.com/sirupsen/logrus"
 	"github.com/smf8/arvan-voucher/pkg/database"
 	"github.com/smf8/arvan-voucher/pkg/log"
@@ -8,9 +12,6 @@ import (
 	"github.com/smf8/arvan-wallet/internal/app/config"
 	"github.com/smf8/arvan-wallet/internal/app/handler"
 	"github.com/smf8/arvan-wallet/internal/app/model"
-	"os"
-	"os/signal"
-	"syscall"
 )
 
 func main() {

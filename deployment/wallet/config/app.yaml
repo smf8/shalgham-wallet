@@ -4,6 +4,9 @@ server:
   port: {{ .server.port }}
   debug: false
   name_space: "wallet"
+  read_timeout: "100s"
+  write_timeout: "100s"
+  idle_timeout: "100s"
 database:
   connection-address: {{ .database.connectionAddress }}
   log_level: {{ .database.logLevel }}
