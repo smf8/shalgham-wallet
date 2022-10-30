@@ -5,7 +5,7 @@
 replicaCount: 3
 
 image:
-  repository: smf8/arvan-wallet
+  repository: smf8/shalgham-wallet
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
   tag: "latest"

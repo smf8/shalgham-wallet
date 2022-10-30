@@ -5,8 +5,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/smf8/arvan-voucher/pkg/database"
-	"github.com/smf8/arvan-voucher/pkg/router"
+	"github.com/smf8/shalgham-voucher/pkg/database"
+	"github.com/smf8/shalgham-voucher/pkg/router"
 
 	"github.com/sirupsen/logrus"
 

@@ -1,4 +1,4 @@
-module github.com/smf8/arvan-wallet
+module github.com/smf8/shalgham-wallet
 
 go 1.18
 
@@ -6,7 +6,7 @@ require (
 	github.com/gofiber/fiber/v2 v2.35.0
 	github.com/knadh/koanf v1.4.2
 	github.com/sirupsen/logrus v1.9.0
-	github.com/smf8/arvan-voucher v0.2.0
+	github.com/smf8/shalgham-voucher v1.0.0
 	gorm.io/gorm v1.23.8
 )
 
